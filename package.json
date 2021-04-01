@@ -1,0 +1,17 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "ISC",
+  "author": {
+    "email": "souzamatheus8174@gmail.com",
+    "name": "Matheus Araújo"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Matheus8174/Crawler.git"
+  },
+  "devDependencies": {
+    "git-commit-msg-linter": "^3.1.0"
+  }
+}
