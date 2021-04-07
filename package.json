@@ -1,7 +1,7 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "src/server.js",
   "license": "ISC",
   "author": {
     "email": "souzamatheus8174@gmail.com",
@@ -13,5 +13,8 @@
   },
   "devDependencies": {
     "git-commit-msg-linter": "^3.1.0"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
   }
 }
