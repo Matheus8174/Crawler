@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "main": "src/server.js",
   "license": "ISC",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon src/server.js"
+  },
   "author": {
     "email": "souzamatheus8174@gmail.com",
     "name": "Matheus Araújo"
@@ -12,7 +16,8 @@
     "url": "https://github.com/Matheus8174/Crawler.git"
   },
   "devDependencies": {
-    "git-commit-msg-linter": "^3.1.0"
+    "git-commit-msg-linter": "^3.1.0",
+    "nodemon": "^2.0.7"
   },
   "dependencies": {
     "express": "^4.17.1"
