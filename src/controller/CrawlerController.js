@@ -422,85 +422,107 @@ Cupom ..."</p>
     `
     const $ = cheerio.load(body);
 
-    function getProductsName() {
-      const products = $('.lista-promocoes .promocao div.informacoes h3');
-      const productsNames = [];
+		function makeCrawling() {
 
-      products.map((index ,element) => {
-        const newName = $(element);
-        productsNames.push(newName.text().slice(13).slice(0,-3));
-      });
-      
-      return productsNames;
-    }
+			function getProductsName() {
+				const products = $('.lista-promocoes .promocao div.informacoes h3');
+				const productsNames = [];
 
-    function getProductsPrice() {
-      const products = $('.lista-promocoes .promocao div.informacoes p.preco.margin-comentario span[itemprop="price"]');
-      const productsPrices = [];
+				products.map((index ,element) => {
+					const newName = $(element);
+					productsNames.push(newName.text().slice(5).slice(0,-3));
+				});
+				
+				return productsNames;
+			}
 
-      products.map((index ,element) => {
-        const newPrice = $(element);
-        productsPrices.push('R$ '+newPrice.text());
-      });
-      
-      return productsPrices;
-    }
-    
-    function getProductsTime() {
-      const products = $('.lista-promocoes .promocao div.imagem span.data_postado');
-      const productsTime = [];
+			function getProductsPrice() {
+				const products = $('.lista-promocoes .promocao div.informacoes p.preco.margin-comentario span[itemprop="price"]');
+				const productsPrices = [];
 
-      products.map((index ,element) => {
-        const newTime = $(element);
-        
-        productsTime.push(newTime.attr().title);
-      });
-      
-      return productsTime;
-    }
+				products.map((index ,element) => {
+					const newPrice = $(element);
+					productsPrices.push('R$ '+newPrice.text());
+				});
+				
+				return productsPrices;
+			}
+			
+			function getProductsTime() {
+				const products = $('.lista-promocoes .promocao div.imagem span.data_postado');
+				const productsTime = [];
 
-    function getProductsImg() {
-      const products = $('.lista-promocoes .promocao div.imagem a[target="_blank"] img');
-      const productsImg = [];
+				products.map((index ,element) => {
+					const newTime = $(element);
+					
+					productsTime.push(newTime.attr().title);
+				});
+				
+				return productsTime;
+			}
 
-      products.map((index ,element) => {
-        const newImg = $(element);
+			function getProductsImg() {
+				const products = $('.lista-promocoes .promocao div.imagem a[target="_blank"] img');
+				const productsImg = [];
 
-        productsImg.push(newImg.attr().src);
-      });
-      
-      return productsImg;
-    }
+				products.map((index ,element) => {
+					const newImg = $(element);
 
-    function getProductsFinalUrl() {
-      const products = $('.lista-promocoes .promocao div.imagem a[target="_blank"]');
-      const productsImg = [];
+					productsImg.push(newImg.attr().src);
+				});
+				
+				return productsImg;
+			}
 
-      products.map((index ,element) => {
-        const newImg = $(element);
+			function getProductsFinalUrl() {
+				const products = $('.lista-promocoes .promocao div.imagem a[target="_blank"]');
+				const productsImg = [];
 
-        productsImg.push(newImg.attr().href);
-      });
-      
-      return productsImg;
-    }
+				products.map((index ,element) => {
+					const newImg = $(element);
 
-    function getProductsLojaName() {
-      const products = $('a.link_loja');
-      const productsLojaName = [];
+					productsImg.push(newImg.attr().href);
+				});
+				
+				return productsImg;
+			}
 
-      products.map((index ,element) => {
-        const newLojaName = $(element);
+			function getProductsLojaName() {
+				const products = $('a.link_loja');
+				const productsLojaName = [];
 
-        productsLojaName.push(newLojaName.text().slice(8));
-      });
-      
-      return productsLojaName;
-    }
+				products.map((index ,element) => {
+					const newLojaName = $(element);
 
-    const result = getProductsFinalUrl()
+					productsLojaName.push(newLojaName.text().slice(8));
+				});
+				
+				return productsLojaName;
+			}
 
-    return response.send({m:result})
+			function assemblyTheResponse() {
+					
+				for (let index = 0; index < 9; index++) {
+					const newObj = {
+						title: getProductsName()[index],
+						price: getProductsPrice()[index],
+						time: getProductsTime()[index],
+						img: getProductsImg()[index],
+						origin: 'gatry',
+						finalUrl: getProductsFinalUrl()[index],
+						loja: getProductsLojaName()[index]
+					}
+					response.push(newObj)
+				}
+				return response
+			}
+
+			return assemblyTheResponse()
+		}
+
+    const result = makeCrawling()
+
+    return response.status(200).json(result)
   };
 };
 
